@@ -28,5 +28,5 @@ jobs:
           uses: cypress-io/github-action@v5
           with: 
             command: pnpm run test:e2e
-            start: pnpm run start-prod
+            start: pnpm run start-prod &
             wait-on: http://localhost:5000
