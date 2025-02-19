@@ -13,15 +13,18 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: '20'
+            cache: 'pnpm'
+        - name: Install pnpm
+          run: npm install -g pnpm
         - name: Install dependencies
-          run: npm install
+          run: pnpm install
         - name: Check style
-          run: npm run eslint
+          run: pnpm run eslint
         - name: Run tests
-          run: npm run test
+          run: pnpm run test
         - name: E2e tests
           uses: cypress-io/github-action@v5
           with: 
-            command: npm run test:e2e
-            start: npm run start-prod
+            command: pnpm run test:e2e
+            start: pnpm run start-prod
             wait-on: http://localhost:5000
