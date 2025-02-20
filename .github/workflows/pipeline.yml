@@ -28,13 +28,6 @@ jobs:
       - name: Start server
         run: pnpm run start-prod &  # Run in background
 
-      - name: Check running services
-        run: netstat -tlnp | grep 5000 || echo "Nothing is running on port 5000"
-
-      - name: Wait for server to start
-        continue-on-error: true
-        run: npx wait-on http://localhost:5000
-
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
         with:
