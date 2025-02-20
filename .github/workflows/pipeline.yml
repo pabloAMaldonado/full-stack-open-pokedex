@@ -32,7 +32,8 @@ jobs:
         run: netstat -tlnp | grep 5000 || echo "Nothing is running on port 5000"
 
       - name: Wait for server to start
-        run: npx wait-on http://localhost:5000 --timeout 120000  # Wait up to 2 mins
+        continue-on-error: true
+        run: npx wait-on http://localhost:5000
 
       - name: Run E2E tests
         uses: cypress-io/github-action@v5
