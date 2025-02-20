@@ -7,26 +7,38 @@ on:
 
 jobs:
   simple_deployment_pipeline:
-      runs-on: ubuntu-20.04
-      steps:
-        - uses: actions/checkout@v4
-        - uses: pnpm/action-setup@v3
-          with:
-            version: 9
-        - uses: actions/setup-node@v4
-          with:
-            node-version: '20'
-            cache: 'pnpm'
-        
-        - name: Install dependencies
-          run: pnpm install
-        - name: Check style
-          run: pnpm run eslint
-        - name: Run tests
-          run: pnpm run test
-        - name: E2e tests
-          uses: cypress-io/github-action@v5
-          with: 
-            command: pnpm run test:e2e
-            start: pnpm run start-prod
-            wait-on: http://localhost:5000
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+      - name: Check style
+        run: pnpm run eslint
+      - name: Run tests
+        run: pnpm run test
+
+      - name: Start server
+        run: pnpm run start-prod &  # Run in background
+
+      - name: Check running services
+        run: netstat -tlnp | grep 5000 || echo "Nothing is running on port 5000"
+
+      - name: Wait for server to start
+        run: npx wait-on http://localhost:5000 --timeout 120000  # Wait up to 2 mins
+
+      - name: Run E2E tests
+        uses: cypress-io/github-action@v5
+        with:
+          command: pnpm run test:e2e
+          wait-on: http://localhost:5000
+
+      - name: Print server logs
+        run: cat logs/server.log || echo "No logs found" || true
