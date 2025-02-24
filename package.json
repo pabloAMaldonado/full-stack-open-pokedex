@@ -10,7 +10,7 @@
     "cypress": "cypress open",
     "test": "jest",
     "test:e2e": "cypress run",
-    "eslint": "eslint './**/*.{js,jsx}'",
+    "eslint": "eslint './**/*.{cjs,js,jsx}'",
     "build": "webpack --mode production"
   },
   "repository": {
