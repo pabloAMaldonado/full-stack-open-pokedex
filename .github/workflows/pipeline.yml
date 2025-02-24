@@ -33,6 +33,6 @@ jobs:
             pnpm run start-prod
           command: pnpm run test:e2e
           wait-on: http://localhost:5000
-
-      - name: Print server logs
-        run: cat logs/server.log || echo "No logs found" || true
+      
+      - name: Trigger deployment
+        run: curl ${{ secrets.VERCEL_API_KEY }}
