@@ -42,6 +42,20 @@ jobs:
         run: |
           echo "Deploying to Vercel"
           curl ${{ secrets.VERCEL_API_KEY }}
+      
+      - name: Discord Webhook Notify (Build Failed)
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          details: 'Build failed! Please check the logs.'
+
+      - name: Discord Webhook Notify (Deployment Success)
+        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          details: 'Deployment to Vercel was successful!'
 
   tag_release:
     needs: [simple_deployment_pipeline]
