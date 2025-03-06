@@ -51,15 +51,17 @@ jobs:
         if: ${{ failure() }}
         uses: rjstone/discord-webhook-notify@v1.0.4
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          severity: error
           details: 'Build failed! Please check the logs.'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Discord Webhook Notify (Deployment Success)
         if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
         uses: rjstone/discord-webhook-notify@v1.0.4
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          severity: info
           details: 'Deployment to Vercel was successful!'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     needs: [simple_deployment_pipeline]
