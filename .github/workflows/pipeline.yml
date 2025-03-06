@@ -63,6 +63,16 @@ jobs:
           details: 'Deployment to Vercel was successful!'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
+      - uses: sarisia/actions-status-discord@v1
+        if: success()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: "Deployment to Vercel was successful!"
+          description: |
+            Delpoyment successful!
+          color: 0xff91a4
+
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
