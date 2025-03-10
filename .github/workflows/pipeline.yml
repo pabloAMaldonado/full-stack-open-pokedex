@@ -51,15 +51,6 @@ jobs:
           details: 'Build failed! Please check the logs.'
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
-      - name: Discord Webhook Notify (Deployment Success)
-        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
-        uses: rjstone/discord-webhook-notify@v1
-        with:
-          severity: info
-          description: 'Deployment'
-          details: 'Deployment was successful!'
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-
       - name: Test Custom
         uses: rjstone/discord-webhook-notify@v1
         with:
@@ -72,6 +63,15 @@ jobs:
             footer: This is a footer.
             text: This is where text goes.
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+  
+      - name: Discord Webhook Notify (Deployment Success)
+        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          description: 'Deployment'
+          details: 'Deployment was successful!'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     needs: [simple_deployment_pipeline]
