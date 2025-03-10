@@ -49,7 +49,7 @@ jobs:
       
       - name: Discord Webhook Notify (Build Failed)
         if: ${{ failure() }}
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        uses: rjstone/discord-webhook-notify@v1
         with:
           severity: error
           details: 'Build failed! Please check the logs.'
@@ -57,7 +57,7 @@ jobs:
 
       - name: Discord Webhook Notify (Deployment Success)
         if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
           details: 'Deployment was successful!'
