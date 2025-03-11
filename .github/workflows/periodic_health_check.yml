@@ -2,7 +2,7 @@ name: Health checker
 
 on:
   schedule:
-    - cron: '0/1 * * * *'
+    - cron: '0 0 1 * *'
 
 jobs:
   periodic_health_check:
@@ -25,13 +25,7 @@ jobs:
             "Health check passed"
             **Event:** ${{ github.event_name }}
             **Repo:** ${{ github.event.repository.full_name }}
-            **Ref:** ${{ github.event.ref }}
-            **Workflow:** ${{ github.workflow }}
-            **Author:** ${{ github.event.head_commit.author.name }}
-            **Committer:** ${{ github.event.head_commit.committer.name }}
-            **Pusher:** ${{ github.event.pusher.name }}
-            **Commit URL:** ${{ github.event.head_commit.url }}
-            **Commit Message:** ${{ github.event.head_commit.message }}
+            
       - name: Send failure notification
         if: ${{ failure() }}
         uses: stegzilla/discord-notify@v2
@@ -42,10 +36,4 @@ jobs:
             "Health check failed"
              **Event:** ${{ github.event_name }}
             **Repo:** ${{ github.event.repository.full_name }}
-            **Ref:** ${{ github.event.ref }}
-            **Workflow:** ${{ github.workflow }}
-            **Author:** ${{ github.event.head_commit.author.name }}
-            **Committer:** ${{ github.event.head_commit.committer.name }}
-            **Pusher:** ${{ github.event.pusher.name }}
-            **Commit URL:** ${{ github.event.head_commit.url }}
-            **Commit Message:** ${{ github.event.head_commit.message }}
+            
