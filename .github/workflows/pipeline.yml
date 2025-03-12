@@ -22,7 +22,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          pnpm --filter client install
       - name: Check style
         run: pnpm run eslint
       - name: Run tests
